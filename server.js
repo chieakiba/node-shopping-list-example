@@ -14,12 +14,14 @@ var Users = function () {
     this.users = {};
     this.id = 0;
 }
+console.log(Users);
 
 Users.prototype.add = function (username, name) {
     var item = {
         name: name,
         id: this.id
     };
+    console.log(item);
     if (this.users[username] == undefined) {
         this.users[username] = [];
     }
@@ -33,25 +35,24 @@ user.add('Joe', 'Broad beans');
 user.add('Joe', 'Tomatoes');
 user.add('Joe', 'Peppers');
 
-var Storage = function () {
-    this.items = [];
-    this.id = 0;
-};
-
+//var Storage = function () {
+//    this.items = [];
+//    this.id = 0;
+//};
 //Adding item on the shopping list
-Storage.prototype.add = function (name) {
-    var item = {
-        name: name,
-        id: this.id
-    };
-    this.items.push(item);
-    this.id += 1;
-    return item;
-};
-var storage = new Storage();
-storage.add('Broad beans');
-storage.add('Tomatoes');
-storage.add('Peppers');
+//Storage.prototype.add = function (name) {
+//    var item = {
+//        name: name,
+//        id: this.id
+//    };
+//    this.items.push(item);
+//    this.id += 1;
+//    return item;
+//};
+//var storage = new Storage();
+//storage.add('Broad beans');
+//storage.add('Tomatoes');
+//storage.add('Peppers');
 
 
 //Endpoint to retreieve item
@@ -87,7 +88,7 @@ app.get('/users/joe/:id', function (req, res) {
     var item;
     // SEARCH algorithm with get
     for (var i = 0; i < user.items.length; i++) {
-        if (req.params.id == user.items[i].id) {
+        if (req.params.id == users.items[i].id) {
             item = user.items[i];
             break;
         }
@@ -114,7 +115,7 @@ app.post('/users', function (req, res) {
     if (!req.body) {
         return res.sendStatus(400);
     }
-    var item = user.add(req.body.name);
+    var item = users.add(req.body.name);
     res.status(201).json(item);
 });
 
@@ -205,5 +206,5 @@ app.listen(process.env.PORT || 8080);
 
 
 //Export
-exports.app = app;
-exports.storage = storage;
+//exports.app = app;
+//exports.users = users;
