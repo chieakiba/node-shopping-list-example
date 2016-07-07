@@ -4,7 +4,20 @@ var app = express();
 app.use(express.static('public'));
 
 var bodyParser = require('body-parser');
-var jsonParser = bodyParser.json();
+
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
+app.use(bodyParser.json());
+
+var User = function () {
+    this.username = "";
+    this.items = [];
+}
+
+User.prototype.add = function (username) {
+    var
+}
 
 var Storage = function () {
     this.items = [];
@@ -27,11 +40,33 @@ storage.add('Broad beans');
 storage.add('Tomatoes');
 storage.add('Peppers');
 
-app.get('/items', function (req, res) {
+
+//Endpoint to retreieve item
+app.get('/items/', function (req, res) {
     res.json(storage.items);
 });
 
-app.post('/items', jsonParser, function (req, res) {
+
+app.get('/items/:id', function (req, res) {
+    var item;
+    // SEARCH algorithm with get
+    for (var i = 0; i < storage.items.length; i++) {
+        if (req.params.id == storage.items[i].id) {
+            item = storage.items[i];
+            break;
+        }
+    }
+    if (item === undefined) {
+        res.json({
+            message: "Item not found!"
+        });
+    } else {
+        res.json(item);
+    }
+});
+
+//Endpoint to add item
+app.post('/items', function (req, res) {
     if (!req.body) {
         return res.sendStatus(400);
     }
@@ -39,24 +74,48 @@ app.post('/items', jsonParser, function (req, res) {
     res.status(201).json(item);
 });
 
-//Deleting item on the shopping list
-//Storage.prototype.delete = function (name) {
-//
-//};
-//var deletedStorage = new Storage();
-//storage.pop('Broad beans');
 
-app.delete('/items/<id>', function (req, res) {
-    for (var i = 0; i < item.length; i++) {
-        var item = {
-            name: name,
-            id: this.id
-        };
-        if (indexOf(req.params.id) !== -1) {
-            item.splice(i, 1);
+//Endpoint to change item name when user renames them
+app.put('/items/:id', function (req, res) {
+    var item;
+    for (var i = 0; i < storage.items.length; i++) {
+        if (req.params.id == storage.items[i].id) {
+            item = storage.items[i];
+            // update it
+            item.name = req.body.name;
+            // break out of loop
+            break;
         }
     }
-    return item;
+    if (item === undefined) {
+        res.json({
+            message: "Item not found!"
+        });
+    } else {
+        res.json(item);
+    }
+});
+
+
+//Endpoint to delete item when user clicks the "x" mark
+app.delete('/items/:id', function (req, res) {
+    var item;
+    // SEARCH algorithm with delete
+    for (var i = 0; i < storage.items.length; i++) {
+
+        if (req.params.id == storage.items[i].id) {
+            item = storage.items.splice(i, 1);
+            break;
+        }
+    }
+    if (item === undefined) {
+        res.json({
+            message: "Item not found!"
+        });
+    } else {
+        res.json(item);
+    }
+
 });
 
 //Use when deploying this app
