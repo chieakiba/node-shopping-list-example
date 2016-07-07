@@ -12,28 +12,28 @@ app.use(bodyParser.json());
 
 var Users = function () {
     this.users = {};
+    this.items = [];
     this.id = 0;
-}
-console.log(Users);
+};
 
 Users.prototype.add = function (username, name) {
     var item = {
         name: name,
         id: this.id
     };
-    console.log(item);
-    if (this.users[username] == undefined) {
-        this.users[username] = [];
+    if (this.users == undefined) {
+        this.users = [];
     }
-    this.users[username].push(item);
+    this.items.push(item);
     this.id += 1;
     return item;
 };
 
-var user = new Users();
-user.add('Joe', 'Broad beans');
-user.add('Joe', 'Tomatoes');
-user.add('Joe', 'Peppers');
+var joe = new Users();
+joe.add('Joe', 'Broad beans');
+joe.add('Joe', 'Tomatoes');
+joe.add('Joe', 'Peppers');
+console.log(joe);
 
 //var Storage = function () {
 //    this.items = [];
@@ -80,16 +80,16 @@ user.add('Joe', 'Peppers');
 //});
 
 app.get('/users/joe', function (req, res) {
-    res.json(user.items);
+    res.json(joe.items);
 });
 
 
 app.get('/users/joe/:id', function (req, res) {
     var item;
     // SEARCH algorithm with get
-    for (var i = 0; i < user.items.length; i++) {
-        if (req.params.id == users.items[i].id) {
-            item = user.items[i];
+    for (var i = 0; i < joe.items.length; i++) {
+        if (req.params.id == joe.items[i].id) {
+            item = joe.items[i];
             break;
         }
     }
@@ -111,7 +111,7 @@ app.get('/users/joe/:id', function (req, res) {
 //    res.status(201).json(item);
 //});
 
-app.post('/users', function (req, res) {
+app.post('/users/joe', function (req, res) {
     if (!req.body) {
         return res.sendStatus(400);
     }
@@ -142,9 +142,9 @@ app.post('/users', function (req, res) {
 
 app.put('/users/joe/:id', function (req, res) {
     var item;
-    for (var i = 0; i < user.items.length; i++) {
-        if (req.params.id == user.items[i].id) {
-            item = user.items[i];
+    for (var i = 0; i < joe.items.length; i++) {
+        if (req.params.id == joe.items[i].id) {
+            item = joe.items[i];
             // update it
             item.name = req.body.name;
             // break out of loop
@@ -184,10 +184,10 @@ app.put('/users/joe/:id', function (req, res) {
 app.delete('/users/joe/:id', function (req, res) {
     var item;
     // SEARCH algorithm with delete
-    for (var i = 0; i < user.items.length; i++) {
+    for (var i = 0; i < joe.items.length; i++) {
 
-        if (req.params.id == user.items[i].id) {
-            item = user.items.splice(i, 1);
+        if (req.params.id == joe.items[i].id) {
+            item = joe.items.splice(i, 1);
             break;
         }
     }

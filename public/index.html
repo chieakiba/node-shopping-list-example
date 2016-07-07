@@ -182,7 +182,7 @@
         };
 
         ShoppingList.prototype.deleteItem = function (id) {
-            var ajax = $.ajax('/users/joe/:id' + id, {
+            var ajax = $.ajax('/users/joe/' + id, {
                 type: 'DELETE',
                 dataType: 'json'
             });
@@ -194,7 +194,7 @@
                 'name': name,
                 'id': id
             };
-            var ajax = $.ajax('/users/joe/:id' + id, {
+            var ajax = $.ajax('/users/joe/' + id, {
                 type: 'PUT',
                 data: JSON.stringify(item),
                 dataType: 'json',
