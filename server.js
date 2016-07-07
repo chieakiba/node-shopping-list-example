@@ -202,3 +202,8 @@ app.delete('/users/joe/:id', function (req, res) {
 
 //Use when deploying this app
 app.listen(process.env.PORT || 8080);
+
+
+//Export
+exports.app = app;
+exports.storage = storage;
