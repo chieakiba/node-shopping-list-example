@@ -10,44 +10,70 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-var Users = function () {
-    this.username = [];
+var User = function (username) {
+    this.username = username;
+    this.items = [];
+    this.id = 0;
+    this.itemId = 0;
 };
 
-Users.prototype.add = function (name) {
-    var username = {
-        username: name
-    };
-    this.username = name;
-    Storage;
-    return name;
-    console.log(name);
+User.prototype.addItem = function (name, item) {
+    var item = {
+        name: name,
+        id: this.itemId
+    }
+    this.items.push(item);
+    this.itemId++;
+    //    console.log(item);
 };
-
-var joe = new Users('Joe');
-joe.add('Joe');
-console.log(joe);
 
 var Storage = function () {
-    this.items = [];
+    this.users = [];
     this.id = 0;
 };
 
+
+
 //Adding item on the shopping list
-Storage.prototype.add = function (name) {
-    var item = {
-        name: name,
-        id: this.id
-    };
-    this.items.push(item);
-    this.id += 1;
-    return item;
+Storage.prototype.add = function (user) {
+    user.id = this.id;
+    this.users.push(user);
+    this.id++;
 };
+
+
+// actual usage
+var joe = new User('Joe');
+joe.addItem("Rice");
+joe.addItem("Chicken wings");
+joe.addItem("Papaya");
+//console.log(joe);
+
+
+
+var chie = new User('Chie');
+chie.addItem("Rice");
+chie.addItem("Chicken wings");
+chie.addItem("Papaya");
+chie.addItem("Eagles");
+//console.log(chie);
+
+
+var victor = new User('Victor');
+victor.addItem("Rice");
+victor.addItem("Chicken wings");
+victor.addItem("Papaya");
+victor.addItem("Eagles");
+
 var storage = new Storage();
-storage.add('Broad beans');
-storage.add('Tomatoes');
-storage.add('Peppers');
-console.log(storage);
+storage.add(joe);
+storage.add(chie);
+storage.add(victor);
+console.log(storage.users);
+//storage.add('Broad beans');
+//storage.add('Tomatoes');
+//storage.add('Peppers');
+
 
 
 //Endpoint to retreieve item
@@ -74,8 +100,8 @@ console.log(storage);
 //    }
 //});
 
-app.get('/users/joe', function (req, res) {
-    res.json(joe.items);
+app.get('/users', function (req, res) {
+    res.json(storage.users);
 });
 
 
