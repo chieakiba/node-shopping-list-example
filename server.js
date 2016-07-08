@@ -227,5 +227,5 @@ app.listen(process.env.PORT || 8080);
 
 
 //Export
-//exports.app = app;
-//exports.users = users;
+exports.app = app;
+exports.storage = storage;
