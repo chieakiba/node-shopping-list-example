@@ -161,7 +161,7 @@
         };
 
         ShoppingList.prototype.getItems = function () {
-            var ajax = $.ajax('/users/joe', {
+            var ajax = $.ajax('/users/joe/', {
                 type: 'GET',
                 dataType: 'json'
             });
@@ -172,7 +172,7 @@
             var item = {
                 'name': name
             };
-            var ajax = $.ajax('/users', {
+            var ajax = $.ajax('/users/joe/', {
                 type: 'POST',
                 data: JSON.stringify(item),
                 dataType: 'json',

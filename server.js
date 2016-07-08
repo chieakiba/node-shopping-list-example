@@ -11,48 +11,43 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 var Users = function () {
-    this.users = {};
+    this.username = [];
+};
+
+Users.prototype.add = function (name) {
+    var username = {
+        username: name
+    };
+    this.username = name;
+    Storage;
+    return name;
+    console.log(name);
+};
+
+var joe = new Users('Joe');
+joe.add('Joe');
+console.log(joe);
+
+var Storage = function () {
     this.items = [];
     this.id = 0;
 };
 
-Users.prototype.add = function (username, name) {
+//Adding item on the shopping list
+Storage.prototype.add = function (name) {
     var item = {
         name: name,
         id: this.id
     };
-    if (this.users == undefined) {
-        this.users = [];
-    }
     this.items.push(item);
     this.id += 1;
     return item;
 };
-
-var joe = new Users();
-joe.add('Joe', 'Broad beans');
-joe.add('Joe', 'Tomatoes');
-joe.add('Joe', 'Peppers');
-console.log(joe);
-
-//var Storage = function () {
-//    this.items = [];
-//    this.id = 0;
-//};
-//Adding item on the shopping list
-//Storage.prototype.add = function (name) {
-//    var item = {
-//        name: name,
-//        id: this.id
-//    };
-//    this.items.push(item);
-//    this.id += 1;
-//    return item;
-//};
-//var storage = new Storage();
-//storage.add('Broad beans');
-//storage.add('Tomatoes');
-//storage.add('Peppers');
+var storage = new Storage();
+storage.add('Broad beans');
+storage.add('Tomatoes');
+storage.add('Peppers');
+console.log(storage);
 
 
 //Endpoint to retreieve item
@@ -115,7 +110,7 @@ app.post('/users/joe', function (req, res) {
     if (!req.body) {
         return res.sendStatus(400);
     }
-    var item = users.add(req.body.name);
+    var item = joe.add(req.body.name);
     res.status(201).json(item);
 });
 
